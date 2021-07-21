@@ -4,8 +4,8 @@
   "description": "Sample application for the new Auth0 SPA SDK",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node bin/www",
+    "dev": "nodemon bin/www"
   },
   "keywords": [],
   "author": "",
