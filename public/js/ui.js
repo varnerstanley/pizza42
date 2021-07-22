@@ -70,6 +70,7 @@ const updateUI = async () => {
       );
 
       document.querySelectorAll("pre code").forEach(hljs.highlightBlock);
+      document.getElementById("btn-call-api").disabled = !isAuthenticated;
 
       eachElement(".profile-image", (e) => (e.src = user.picture));
       eachElement(".user-name", (e) => (e.innerText = user.name));
