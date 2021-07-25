@@ -51,7 +51,8 @@ const configureClient = async () => {
   auth0 = await createAuth0Client({
     domain: config.domain,
     client_id: config.clientId,
-    audience: config.audience
+    audience: config.audience,
+    scope: config.scope
   });
 };
 
@@ -70,6 +71,7 @@ const requireAuth = async (fn, targetUrl) => {
   return login(targetUrl);
 };
 
+
 const callApi = async () => {
   try {
 
@@ -81,8 +83,15 @@ const callApi = async () => {
     const response = await fetch("/api/external", {
       headers: {
         Authorization: `Bearer ${token}`
-      }
+      },
     });
+
+    const user = auth0.getUser();
+    console.log(user);
+    user.user_metadata = user.user_metadata || {};
+    user.user_metadata.orders = user.user_metadata.orders || [];
+    // user.user_metadata.orders.push({ timestamp: new Date(), name: "Pepperoni Pizza" });
+
 
     // Fetch the JSON result
     const responseData = await response.json();
