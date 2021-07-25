@@ -1,5 +1,6 @@
 const express = require("express");
 const jwt = require("express-jwt");
+const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require("jwks-rsa");
 const authConfig = require("./auth_config.json");
 const { join } = require("path");
@@ -22,15 +23,35 @@ const checkJwt = jwt({
 
   audience: authConfig.audience,
   issuer: `https://${authConfig.domain}/`,
-  algorithms: ["RS256"]
+  algorithms: ["RS256"],
 });
 
+
+
+const checkScopes = jwtAuthz(['read:orders']);
 // Create an endpoint that uses the above middleware to
 // protect this route from unauthorized requests
-app.get("/api/external", checkJwt, (req, res) => {
+app.get("/api/external", checkJwt, checkScopes, (req, res) => {
+
+
+  var axios = require("axios").default;
+  //console.log(req.headers.authorization);
+  var options = {
+    method: 'PATCH', url: `https://${authConfig.domain}/api/v2/users/user_id/`,
+    headers: { authorization: req.headers.authorization, 'content-type': 'application/json' },
+    user_metadata: { pizzaName: "Pepperoni Pizza" }
+  };
+
+
+  axios.request(options).then(function (response) {
+    // console.log(response.data);
+  }).catch(function (error) {
+    console.error(error);
+  });
+
   console.log("I got here.");
   res.send({
-    msg: "Your access token was successfully validated!"
+    msg: "Access token validated!"
   });
 });
 

@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.16.1",
+    "axios": "^0.21.1",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
+    "express-jwt-authz": "^2.4.1",
     "helmet": "^3.23.3",
     "jose": "^3.14.3",
     "jwks-rsa": "^2.0.4",
