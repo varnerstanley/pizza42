@@ -77,23 +77,32 @@ const callApi = async () => {
 
     // Get the access token from the Auth0 client
     const token = await auth0.getTokenSilently();
+    const user = await auth0.getUser();
+    console.log(user);
+    // console.log(JSON.stringify(user));
+    user.user_metadata = {};
+    user.user_metadata.orders = user['https://pizzaTime.com/orders'];
+    // console.log(JSON.stringify(user.user_metadata));
+    user.user_metadata.orders.push({ timestamp: new Date(), name: "Pepperoni Pizza" });
+
+    // console.log(user.user_metadata.orders.length);
 
     // Make the call to the API, setting the token
     // in the Authorization header
-    const response = await fetch("/api/external", {
+    //change to a put so you can pass in JSON file that contains a new array
+    console.log('the metadata we are looking for: ', JSON.stringify(user.user_metadata));
+    const response = await fetch(`/api/external/${user.sub}`, {
+      method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json'
       },
+      body: JSON.stringify(user.user_metadata),
     });
 
-    const user = auth0.getUser();
-    console.log(user);
-    user.user_metadata = user.user_metadata || {};
-    user.user_metadata.orders = user.user_metadata.orders || [];
-    // user.user_metadata.orders.push({ timestamp: new Date(), name: "Pepperoni Pizza" });
-
-
     // Fetch the JSON result
+    //change to be an update 
+    // 
     const responseData = await response.json();
 
     // Display the result in the output element
