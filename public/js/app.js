@@ -89,8 +89,7 @@ const callApi = async () => {
 
     // Make the call to the API, setting the token
     // in the Authorization header
-    //change to a put so you can pass in JSON file that contains a new array
-    console.log('the metadata we are looking for: ', JSON.stringify(user.user_metadata));
+    // console.log('the metadata we are looking for: ', JSON.stringify(user.user_metadata));
     const response = await fetch(`/api/external/${user.sub}`, {
       method: 'PUT',
       headers: {
