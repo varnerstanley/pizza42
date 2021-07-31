@@ -39,20 +39,20 @@ const logout = () => {
 /**
  * Retrieves the auth configuration from the server
  */
-const fetchAuthConfig = () => fetch("/auth_config.json");
+// const fetchAuthConfig = () => fetch("/auth_config.json");
 
 /**
  * Initializes the Auth0 client
  */
 const configureClient = async () => {
-  const response = await fetchAuthConfig();
-  const config = await response.json();
+  // const response = await fetchAuthConfig();
+  // const config = await response.json();
 
   auth0 = await createAuth0Client({
-    domain: config.domain,
-    client_id: config.clientId,
-    audience: config.audience,
-    scope: config.scope
+    domain: "fortytwopizza.us.auth0.com",
+    client_id: "yUG268OpJyzFEbbLYG1toxRZXAgzfoHP",
+    audience: "https://fortytwopizza.us.auth0.com/api/v2/",
+    scope: "openid profile update:current_user_metadata"
   });
 };
 
