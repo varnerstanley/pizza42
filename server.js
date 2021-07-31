@@ -65,9 +65,9 @@ app.put("/api/external/:user_id", checkJwt, checkScopes, async (req, res) => {
   }
 });
 
-app.get("/auth_config.json", (req, res) => {
-  res.sendFile(join(__dirname, "auth_config.json"));
-});
+// app.get("/auth_config.json", (req, res) => {
+//   res.sendFile(join(__dirname, "auth_config.json"));
+// });
 
 app.get("/*", (_, res) => {
   res.sendFile(join(__dirname, "index.html"));
