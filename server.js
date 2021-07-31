@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("express-jwt");
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require("jwks-rsa");
-const authConfig = require("./auth_config.json");
+// const authConfig = require("./auth_config.json");
 const { join } = require("path");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -24,11 +24,11 @@ const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+    jwksUri: `https://${process.env.domain}/.well-known/jwks.json`
   }),
 
-  audience: authConfig.audience,
-  issuer: `https://${authConfig.domain}/`,
+  audience: process.env.audience,
+  issuer: `https://${process.env.domain}/`,
   algorithms: ["RS256"],
 });
 
@@ -47,7 +47,7 @@ app.put("/api/external/:user_id", checkJwt, checkScopes, async (req, res) => {
   console.log(req.body);
 
   var options = {
-    method: 'PATCH', url: `https://${authConfig.domain}/api/v2/users/${userId}`,
+    method: 'PATCH', url: `https://${process.env.domain}/api/v2/users/${userId}`,
     headers: { authorization: req.headers.authorization, 'content-type': 'application/json' },
     data: {
       user_metadata: { orders: req.body.orders },
