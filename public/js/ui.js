@@ -2,7 +2,7 @@
 const router = {
   "/": () => showContent("content-home"),
   "/profile": () =>
-    requireAuth(() => showContent("content-profile"), "/profile"),
+    requireAuth(() => showContent("content-profile"), "/profile", updateUI()),
   "/login": () => login()
 };
 
